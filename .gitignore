@@ -1,0 +1,10 @@
+# Python virtual environment
+venv/
+.venv/
+
+# Node.js dependencies
+glassdoor-scraper/node_modules/
+glassdoor-dashboard/node_modules/
+
+# Alternatively, ignore all node_modules globally
+node_modules/

@@ -1,0 +1,38 @@
+{
+  "name": "glassdoor-scraper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "compromise": "^14.14.4",
+    "cors": "^2.8.5",
+    "d3": "^7.9.0",
+    "express": "^4.21.2",
+    "isomorphic-fetch": "^3.0.0",
+    "jsdom": "^26.0.0",
+    "lda": "^0.2.0",
+    "ml-kmeans": "^6.0.0",
+    "natural": "^8.0.1",
+    "pg": "^8.13.3",
+    "puppeteer": "^24.2.0",
+    "puppeteer-core": "^24.2.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-recaptcha": "^3.6.8",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "random-useragent": "^0.5.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-wordcloud": "^1.2.7",
+    "recharts": "^2.15.1",
+    "stopword": "^3.1.4",
+    "vader-sentiment": "^1.1.3",
+    "zenrows": "^2.0.1"
+  },
+  "description": ""
+}
