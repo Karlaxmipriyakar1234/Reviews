@@ -2,7 +2,7 @@ const { Client } = require("pg");
 const stopword = require("stopword");
 const natural = require("natural");
 const vader = require("vader-sentiment");
-const compromise = require("compromise"); 
+const compromise = require("compromise");
 
 // PostgreSQL connection
 const client = new Client({
@@ -15,14 +15,14 @@ const client = new Client({
 
 client.connect();
 
-// Preprocessing function
+// Text Preprocessing
 const preprocessText = (text) => {
   if (!text || typeof text !== "string") return "";
 
   let processedText = text
     .toLowerCase()
     .replace(/[^a-zA-Z\s]/g, "") 
-    .replace(/<\/?[^>]+(>|$)/g, ""); 
+    .replace(/<\/?[^>]+(>|$)/g, "");
 
   const tokenizer = new natural.WordTokenizer();
   const tokens = tokenizer.tokenize(processedText);
@@ -40,7 +40,7 @@ const analyzeSentiment = (text) => {
   return vader.SentimentIntensityAnalyzer.polarity_scores(text);
 };
 
-// Extract Keywords using Named Entity Recognition (NER)
+// Extract Keywords
 const extractKeywords = (text) => {
   if (!text || typeof text !== "string") return [];
 
@@ -52,6 +52,24 @@ const extractKeywords = (text) => {
   }
 
   return keywords;
+};
+
+// Categorize Keywords by Sentiment
+const categorizeKeywords = (text) => {
+  const keywords = extractKeywords(text);
+  const positiveKeywords = [];
+  const negativeKeywords = [];
+
+  keywords.forEach((word) => {
+    const sentimentScore = analyzeSentiment(word).compound;
+    if (sentimentScore >= 0.05) {
+      positiveKeywords.push(word);
+    } else if (sentimentScore <= -0.05) {
+      negativeKeywords.push(word);
+    }
+  });
+
+  return { positiveKeywords, negativeKeywords };
 };
 
 // Fetch and Process Reviews
@@ -81,9 +99,9 @@ const fetchReviews = async () => {
           cons: analyzeSentiment(consText),
         },
         keywords: {
-          review: extractKeywords(reviewText),
-          pros: extractKeywords(prosText),
-          cons: extractKeywords(consText),
+          review: categorizeKeywords(reviewText),
+          pros: categorizeKeywords(prosText),
+          cons: categorizeKeywords(consText),
         },
       };
     });
@@ -94,6 +112,5 @@ const fetchReviews = async () => {
     throw error;
   }
 };
-
 
 module.exports = { fetchReviews };
